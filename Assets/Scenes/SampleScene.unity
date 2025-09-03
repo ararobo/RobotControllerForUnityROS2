@@ -648,10 +648,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.040905327
-    y: 0
-    width: 0.91818935
-    height: 1
+    x: 0
+    y: 0.015556216
+    width: 1
+    height: 0.96888757
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -752,8 +752,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a800b71578c72f5418c897974d658aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linearSpeed: 1
-  angularSpeed: 1
+  linearSpeed: 2
+  angularSpeed: 2.5
   linearSpeedSlider: {fileID: 1832221449}
   angularSpeedSlider: {fileID: 1812100874}
   linearSpeedText: {fileID: 2055087084}
@@ -1118,7 +1118,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1200, y: 600}
+  m_ReferenceResolution: {x: 1100, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1451,7 +1451,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1506478503}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 5
+  m_MaxValue: 25
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -3450,7 +3450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09c58497ce8f634892fc901946382b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLiftSpeed: 1
+  maxLiftSpeed: 10
   liftSpeedSlider: {fileID: 1188324705}
   liftSpeedText: {fileID: 1981898465}
 --- !u!114 &2095369148

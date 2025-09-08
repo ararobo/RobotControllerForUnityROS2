@@ -13,12 +13,15 @@ public class UnderHandController : MonoBehaviour
     private IPublisher<std_msgs.msg.Float32> under_hand_slide_pub;
     private IPublisher<std_msgs.msg.Float32> under_hand_raise_pub;
 
-    // アームの最大速度を設定
-    public float maxArmSpeed = 1.0f;
+    // 個別の速度設定
+    public float maxHandSlideSpeed = 1.0f;
+    public float maxHandRaiseSpeed = 1.0f;
 
     // UIスライダーとテキスト
-    public Slider armSpeedSlider;
-    public TMPro.TextMeshProUGUI armSpeedText;
+    public Slider handSlideSpeedSlider;
+    public TMPro.TextMeshProUGUI handSlideSpeedText;
+    public Slider handRaiseSpeedSlider;
+    public TMPro.TextMeshProUGUI handRaiseSpeedText;
 
     // GUI入力用の変数
     private float currentHandSlide = 0.0f;
@@ -52,11 +55,15 @@ public class UnderHandController : MonoBehaviour
         }
 
         // スライダーの初期値を設定
-        if (armSpeedSlider != null)
+        if (handSlideSpeedSlider != null)
         {
-            armSpeedSlider.value = maxArmSpeed;
-            // スライダーの値が変更されたときのイベントリスナーを追加
-            armSpeedSlider.onValueChanged.AddListener(OnArmSpeedSliderChanged);
+            handSlideSpeedSlider.value = maxHandSlideSpeed;
+            handSlideSpeedSlider.onValueChanged.AddListener(OnHandSlideSpeedSliderChanged);
+        }
+        if (handRaiseSpeedSlider != null)
+        {
+            handRaiseSpeedSlider.value = maxHandRaiseSpeed;
+            handRaiseSpeedSlider.onValueChanged.AddListener(OnHandRaiseSpeedSliderChanged);
         }
 
         // ボタンにイベントを登録
@@ -68,12 +75,21 @@ public class UnderHandController : MonoBehaviour
     }
 
     // スライダーの値が変更されたときに呼び出されるメソッド
-    private void OnArmSpeedSliderChanged(float value)
+    private void OnHandSlideSpeedSliderChanged(float value)
     {
-        maxArmSpeed = value;
-        if (armSpeedText != null)
+        maxHandSlideSpeed = value;
+        if (handSlideSpeedText != null)
         {
-            armSpeedText.text = maxArmSpeed.ToString("F2");
+            handSlideSpeedText.text = maxHandSlideSpeed.ToString("F2");
+        }
+    }
+
+    private void OnHandRaiseSpeedSliderChanged(float value)
+    {
+        maxHandRaiseSpeed = value;
+        if (handRaiseSpeedText != null)
+        {
+            handRaiseSpeedText.text = maxHandRaiseSpeed.ToString("F2");
         }
     }
 
@@ -141,8 +157,8 @@ public class UnderHandController : MonoBehaviour
         std_msgs.msg.Float32 raise_msg = new std_msgs.msg.Float32();
 
         // GUI入力用の変数に最大速度を適用
-        slide_msg.Data = currentHandSlide * maxArmSpeed;
-        raise_msg.Data = currentHandRaise * maxArmSpeed;
+        slide_msg.Data = currentHandSlide * maxHandSlideSpeed;
+        raise_msg.Data = currentHandRaise * maxHandRaiseSpeed;
 
         // メッセージをパブリッシュ
         if (under_hand_slide_pub != null)

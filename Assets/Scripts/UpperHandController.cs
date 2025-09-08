@@ -13,11 +13,18 @@ public class UpperHandController : MonoBehaviour
     private IPublisher<std_msgs.msg.Float32> upper_hand_width_pub;
     private IPublisher<std_msgs.msg.Float32> upper_hand_depth_pub;
 
-    public float maxArmSpeed = 1.0f;
+    // 個別の速度設定
+    public float maxHandWidthSpeed = 1.0f;
+    public float maxHandDepthSpeed = 1.0f;
     public float holdSpeed = 1.0f;
 
-    public Slider armSpeedSlider;
-    public TMPro.TextMeshProUGUI armSpeedText;
+    // UI要素の参照
+    public Slider handWidthSpeedSlider;
+    public TMPro.TextMeshProUGUI handWidthSpeedText;
+    public Slider handDepthSpeedSlider;
+    public TMPro.TextMeshProUGUI handDepthSpeedText;
+    public Slider holdSpeedSlider;
+    public TMPro.TextMeshProUGUI holdSpeedText;
 
     private float currentHandWidth = 0.0f;
     private float currentHandDepth = 0.0f;
@@ -47,10 +54,21 @@ public class UpperHandController : MonoBehaviour
             Debug.LogError("ROS2UnityComponent not found on this GameObject.");
         }
 
-        if (armSpeedSlider != null)
+        // 速度スライダーの設定
+        if (handWidthSpeedSlider != null)
         {
-            armSpeedSlider.value = maxArmSpeed;
-            armSpeedSlider.onValueChanged.AddListener(OnArmSpeedSliderChanged);
+            handWidthSpeedSlider.value = maxHandWidthSpeed;
+            handWidthSpeedSlider.onValueChanged.AddListener(OnHandWidthSpeedSliderChanged);
+        }
+        if (handDepthSpeedSlider != null)
+        {
+            handDepthSpeedSlider.value = maxHandDepthSpeed;
+            handDepthSpeedSlider.onValueChanged.AddListener(OnHandDepthSpeedSliderChanged);
+        }
+        if (holdSpeedSlider != null)
+        {
+            holdSpeedSlider.value = holdSpeed;
+            holdSpeedSlider.onValueChanged.AddListener(OnHoldSpeedSliderChanged);
         }
 
         SetupButtonEvents(handForwardButton, 1.0f, ButtonType.Depth);
@@ -64,12 +82,30 @@ public class UpperHandController : MonoBehaviour
         }
     }
 
-    private void OnArmSpeedSliderChanged(float value)
+    private void OnHandWidthSpeedSliderChanged(float value)
     {
-        maxArmSpeed = value;
-        if (armSpeedText != null)
+        maxHandWidthSpeed = value;
+        if (handWidthSpeedText != null)
         {
-            armSpeedText.text = maxArmSpeed.ToString("F2");
+            handWidthSpeedText.text = maxHandWidthSpeed.ToString("F2");
+        }
+    }
+
+    private void OnHandDepthSpeedSliderChanged(float value)
+    {
+        maxHandDepthSpeed = value;
+        if (handDepthSpeedText != null)
+        {
+            handDepthSpeedText.text = maxHandDepthSpeed.ToString("F2");
+        }
+    }
+
+    private void OnHoldSpeedSliderChanged(float value)
+    {
+        holdSpeed = value;
+        if (holdSpeedText != null)
+        {
+            holdSpeedText.text = holdSpeed.ToString("F2");
         }
     }
 
@@ -150,8 +186,8 @@ public class UpperHandController : MonoBehaviour
         std_msgs.msg.Float32 width_msg = new std_msgs.msg.Float32();
         std_msgs.msg.Float32 depth_msg = new std_msgs.msg.Float32();
 
-        width_msg.Data = currentHandWidth * maxArmSpeed;
-        depth_msg.Data = currentHandDepth * maxArmSpeed;
+        width_msg.Data = currentHandWidth * maxHandWidthSpeed;
+        depth_msg.Data = currentHandDepth * maxHandDepthSpeed;
 
         if (upper_hand_width_pub != null)
         {

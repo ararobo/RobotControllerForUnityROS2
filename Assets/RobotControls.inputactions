@@ -1,0 +1,186 @@
+{
+    "version": 1,
+    "name": "RobotControls",
+    "maps": [
+        {
+            "name": "LiftControls",
+            "id": "a357d634-f259-492e-9414-a421058bae7c",
+            "actions": [
+                {
+                    "name": "LiftVelocity",
+                    "type": "Button",
+                    "id": "a478cf6c-861a-45b3-ad4e-0a9bcdab7200",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6ec237f6-ec7f-4d50-9641-f2ed1a2ede51",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LiftVelocity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "59ba7564-1111-4bce-bcfc-5fe6c87c8e98",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LiftVelocity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UpperHandControls",
+            "id": "28d395aa-acf6-4bc0-9c3a-0d305fd019d9",
+            "actions": [
+                {
+                    "name": "HandWidth",
+                    "type": "Button",
+                    "id": "41a61d13-db37-442f-9b64-874b78f57dc5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HandDepth",
+                    "type": "Button",
+                    "id": "3c1191a0-01cc-4a5d-9849-89efcf003017",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c44c9651-1e87-49d7-9ae4-41a2f76a6940",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandWidth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e18df3dc-5323-4312-91d6-ef4aead387e1",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandWidth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65cfbdef-1ffd-4cf8-8bd4-5a3460642a10",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandDepth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1bb78bc1-f1d9-4178-99e5-a1ef2539f4cc",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandDepth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UnderHandControls",
+            "id": "e6c1504d-786e-4753-9dab-9ea81d3d7df3",
+            "actions": [
+                {
+                    "name": "HandSlide",
+                    "type": "Button",
+                    "id": "423612c3-a814-4bed-be5d-28a398f8974b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HandRaise",
+                    "type": "Button",
+                    "id": "db648f30-58af-4806-9ff5-6f170f1f8c72",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2585b172-b153-4983-9017-2121c2702ce8",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandSlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0b7649d-89c4-478b-a990-af4b05a30c41",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandSlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bbf3b3de-6c24-447f-850e-92d8a2ec9201",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandRaise",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e21fd6a-6d69-49aa-911a-99fbb8cee5a1",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandRaise",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

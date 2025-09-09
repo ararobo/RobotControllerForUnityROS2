@@ -49,6 +49,8 @@ public class LiftController : MonoBehaviour
             liftSpeedSlider.value = maxLiftSpeed;
             // スライダーの値が変更されたときのイベントリスナーを追加
             liftSpeedSlider.onValueChanged.AddListener(OnSliderValueChanged);
+            // ゲーム開始時のスライダーの初期値をテキストに反映
+            OnSliderValueChanged(liftSpeedSlider.value);
         }
 
         // ボタンにイベントを登録

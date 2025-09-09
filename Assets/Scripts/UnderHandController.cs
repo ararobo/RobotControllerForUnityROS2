@@ -59,11 +59,13 @@ public class UnderHandController : MonoBehaviour
         {
             handSlideSpeedSlider.value = maxHandSlideSpeed;
             handSlideSpeedSlider.onValueChanged.AddListener(OnHandSlideSpeedSliderChanged);
+            OnHandSlideSpeedSliderChanged(handSlideSpeedSlider.value); // 初期値をテキストに反映
         }
         if (handRaiseSpeedSlider != null)
         {
             handRaiseSpeedSlider.value = maxHandRaiseSpeed;
             handRaiseSpeedSlider.onValueChanged.AddListener(OnHandRaiseSpeedSliderChanged);
+            OnHandRaiseSpeedSliderChanged(handRaiseSpeedSlider.value); // 初期値をテキストに反映
         }
 
         // ボタンにイベントを登録

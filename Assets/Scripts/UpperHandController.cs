@@ -59,16 +59,19 @@ public class UpperHandController : MonoBehaviour
         {
             handWidthSpeedSlider.value = maxHandWidthSpeed;
             handWidthSpeedSlider.onValueChanged.AddListener(OnHandWidthSpeedSliderChanged);
+            OnHandWidthSpeedSliderChanged(handWidthSpeedSlider.value); // 初期値をテキストに反映
         }
         if (handDepthSpeedSlider != null)
         {
             handDepthSpeedSlider.value = maxHandDepthSpeed;
             handDepthSpeedSlider.onValueChanged.AddListener(OnHandDepthSpeedSliderChanged);
+            OnHandDepthSpeedSliderChanged(handDepthSpeedSlider.value); // 初期値をテキストに反映
         }
         if (holdSpeedSlider != null)
         {
             holdSpeedSlider.value = holdSpeed;
             holdSpeedSlider.onValueChanged.AddListener(OnHoldSpeedSliderChanged);
+            OnHoldSpeedSliderChanged(holdSpeedSlider.value); // 初期値をテキストに反映
         }
 
         SetupButtonEvents(handForwardButton, 1.0f, ButtonType.Depth);

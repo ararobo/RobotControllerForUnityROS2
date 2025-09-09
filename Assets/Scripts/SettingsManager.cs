@@ -6,7 +6,6 @@ public class SettingsManager : MonoBehaviour
     public GameObject settingsPanel;
     public Slider volumeSlider;
     public Toggle bgmToggle;
-    public Toggle vibrationToggle; // バイブレーション設定用のToggleを追加
 
     void Start()
     {
@@ -21,13 +20,6 @@ public class SettingsManager : MonoBehaviour
         if (bgmToggle != null)
         {
             bgmToggle.isOn = true; // 例: ONに初期設定
-        }
-
-        // バイブレーション設定の初期値を設定
-        if (vibrationToggle != null)
-        {
-            // VibrationManagerの静的変数から現在の状態を取得
-            vibrationToggle.isOn = VibrationManager.isVibrationEnabled;
         }
     }
 
@@ -53,11 +45,4 @@ public class SettingsManager : MonoBehaviour
         // ここでBGMの再生/停止を切り替える処理を記述
     }
 
-    // バイブレーションのトグル状態が変更されたときに呼ばれるメソッド
-    public void OnVibrationToggleChanged(bool isOn)
-    {
-        // VibrationManagerの静的変数を変更して、バイブレーションを有効/無効にする
-        VibrationManager.isVibrationEnabled = isOn;
-        Debug.Log("バイブレーション ON/OFF: " + isOn);
-    }
 }

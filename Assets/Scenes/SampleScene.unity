@@ -1090,7 +1090,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -4650,7 +4650,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -6134,7 +6134,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -6410,7 +6410,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -6968,7 +6968,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 803307577}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 10
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -7288,7 +7288,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -7812,7 +7812,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -8290,7 +8290,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1346637681}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 10
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -8350,8 +8350,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0055fd55c596b408135a1d14dae695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHandWidthSpeed: 1
-  maxHandDepthSpeed: 1
+  maxHandWidthSpeed: 0.5
+  maxHandDepthSpeed: 15
   holdSpeed: 1
   handWidthSpeedSlider: {fileID: 1557183421}
   handWidthSpeedText: {fileID: 109070212}
@@ -10726,7 +10726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09c58497ce8f634892fc901946382b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLiftSpeed: 10
+  maxLiftSpeed: 20
   liftSpeedSlider: {fileID: 1188324705}
   liftSpeedText: {fileID: 1981898465}
   upButton: {fileID: 1995560861}

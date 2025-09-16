@@ -9,18 +9,28 @@ public class JoyController : MonoBehaviour
     private ROS2UnityComponent ros2Unity;
     private ROS2Node ros2Node;
     private IPublisher<geometry_msgs.msg.Twist> twist_pub;
+    private IPublisher<std_msgs.msg.Bool> accel_pub;
 
     // 速度調整用のパブリック変数
     public float linearSpeed = 1.0f;
     public float angularSpeed = 1.0f;
 
+    // スライダーの値表示用のテキスト
+    public TMPro.TextMeshProUGUI linearSpeedText;
+    public TMPro.TextMeshProUGUI angularSpeedText;
+
     // UIスライダーを割り当てるためのパブリック変数
     public Slider linearSpeedSlider;
     public Slider angularSpeedSlider;
 
-    // スライダーの値表示用のテキスト
-    public TMPro.TextMeshProUGUI linearSpeedText;
-    public TMPro.TextMeshProUGUI angularSpeedText;
+    // ----- 新規追加部分 -----
+    // 低速モードの乗数
+    public float speedMultiplier = 0.25f;
+
+    // トグルボタンを割り当てるためのパブリック変数
+    public Toggle lowSpeedToggle;
+    public Toggle lowAccelToggle;
+    // ----------------------
 
     // シーン読み込み時に一度だけ呼び出される関数
     void Start()
@@ -36,6 +46,9 @@ public class JoyController : MonoBehaviour
             {
                 ros2Node = ros2Unity.CreateNode("UnityJoyNode");
                 twist_pub = ros2Node.CreatePublisher<geometry_msgs.msg.Twist>("cmd_vel");
+                // ----- 新規追加: 加速トピックのパブリッシャー -----
+                accel_pub = ros2Node.CreatePublisher<std_msgs.msg.Bool>("low_accel_topic");
+                // ------------------------------------------------
             }
         }
 
@@ -48,6 +61,17 @@ public class JoyController : MonoBehaviour
         {
             angularSpeedSlider.value = angularSpeed;
         }
+
+        // ----- 新規追加: トグルボタンのリスナー登録 -----
+        if (lowSpeedToggle != null)
+        {
+            // Update()で状態を確認するため、ここではリスナーは不要
+        }
+        if (lowAccelToggle != null)
+        {
+            lowAccelToggle.onValueChanged.AddListener(OnAccelToggleChanged);
+        }
+        // ------------------------------------------------
     }
 
     // フレーム更新時に呼び出される関数
@@ -102,7 +126,38 @@ public class JoyController : MonoBehaviour
         var rightStickInputX = current.rightStick.x.ReadValue();
         msg.Angular.Z = -rightStickInputX * angularSpeed;
 
+        // ----- 速度調整ロジックの追加 -----
+        // 低速トグルがオンの場合、速度に乗数を掛ける
+        if (lowSpeedToggle != null && lowSpeedToggle.isOn)
+        {
+            msg.Linear.Y *= speedMultiplier;
+            msg.Linear.X *= speedMultiplier;
+            msg.Angular.Z *= speedMultiplier;
+        }
+        // ---------------------------------
+
         // メッセージをパブリッシュ
         twist_pub.Publish(msg);
     }
+
+    // ----- 新規追加メソッド -----
+    /// <summary>
+    /// 低加速トグルが変更されたときに呼び出されるメソッド
+    /// </summary>
+    /// <param name="isOn">トグルの新しい状態</param>
+    public void OnAccelToggleChanged(bool isOn)
+    {
+        if (ros2Unity == null || !ros2Unity.Ok() || ros2Node == null || accel_pub == null)
+        {
+            Debug.LogWarning("ROS2 is not initialized. Cannot publish acceleration message.");
+            return;
+        }
+
+        std_msgs.msg.Bool msg = new std_msgs.msg.Bool();
+        msg.Data = isOn;
+
+        accel_pub.Publish(msg);
+        Debug.Log($"Published acceleration toggle state: {msg.Data}");
+    }
+    // ----------------------------
 }

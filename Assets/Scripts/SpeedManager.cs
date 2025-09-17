@@ -23,9 +23,6 @@ public class SpeedManager : MonoBehaviour
 
     void Start()
     {
-        // FPS設定
-        Application.targetFrameRate = 30;
-
         // ROS2Unityコンポーネントの取得
         if (TryGetComponent(out ros2Unity))
         {

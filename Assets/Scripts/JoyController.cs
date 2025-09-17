@@ -35,9 +35,6 @@ public class JoyController : MonoBehaviour
     // シーン読み込み時に一度だけ呼び出される関数
     void Start()
     {
-        //FPS設定
-        Application.targetFrameRate = 30;
-
         // TryGetComponentでコンポーネントの取得を試みる
         if (TryGetComponent(out ros2Unity))
         {

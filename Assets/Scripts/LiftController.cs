@@ -29,9 +29,6 @@ public class LiftController : MonoBehaviour
 
     void Start()
     {
-        // FPS設定
-        Application.targetFrameRate = 30;
-
         // ROS2Unityコンポーネントの取得を試みる
         if (TryGetComponent(out ros2Unity))
         {

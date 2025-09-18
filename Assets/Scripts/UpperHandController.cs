@@ -43,8 +43,8 @@ public class UpperHandController : MonoBehaviour
             if (ros2Unity.Ok())
             {
                 ros2Node = ros2Unity.CreateNode("UnityUpperHandNode");
-                upper_hand_width_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/upper_hand/width");
-                upper_hand_depth_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/upper_hand/depth");
+                upper_hand_width_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/phone/upper_hand/width");
+                upper_hand_depth_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/phone/upper_hand/depth");
             }
         }
         else

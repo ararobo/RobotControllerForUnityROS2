@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 using ROS2;
 using UnityEngine.UI;
 using TMPro; // TextMeshProを使用するために必要なライブラリを追加
+using geometry_msgs.msg;
+using std_msgs.msg;
 
 public class JoyController : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class JoyController : MonoBehaviour
     // 速度調整用のパブリック変数
     public float linearSpeed = 1.0f;
     public float angularSpeed = 1.0f;
+    public float speedMultiplier = 0.25f; // 低速モードの乗数
 
     // スライダーの値表示用のテキスト
     public TMPro.TextMeshProUGUI linearSpeedText;
@@ -23,14 +26,13 @@ public class JoyController : MonoBehaviour
     public Slider linearSpeedSlider;
     public Slider angularSpeedSlider;
 
-    // ----- 新規追加部分 -----
-    // 低速モードの乗数
-    public float speedMultiplier = 0.25f;
-
     // トグルボタンを割り当てるためのパブリック変数
     public Toggle lowSpeedToggle;
     public Toggle lowAccelToggle;
-    // ----------------------
+
+    // 元々のスライダーの最大値を保存するプライベート変数
+    private float initialMaxLinearSpeed;
+    private float initialMaxAngularSpeed;
 
     // シーン読み込み時に一度だけ呼び出される関数
     void Start()
@@ -42,10 +44,8 @@ public class JoyController : MonoBehaviour
             if (ros2Unity.Ok())
             {
                 ros2Node = ros2Unity.CreateNode("UnityJoyNode");
-                twist_pub = ros2Node.CreatePublisher<geometry_msgs.msg.Twist>("cmd_vel");
-                // ----- 新規追加: 加速トピックのパブリッシャー -----
-                accel_pub = ros2Node.CreatePublisher<std_msgs.msg.Bool>("low_accel_topic");
-                // ------------------------------------------------
+                twist_pub = ros2Node.CreatePublisher<geometry_msgs.msg.Twist>("/phone/cmd_vel");
+                accel_pub = ros2Node.CreatePublisher<std_msgs.msg.Bool>("/phone/low_accel");
             }
         }
 
@@ -53,45 +53,38 @@ public class JoyController : MonoBehaviour
         if (linearSpeedSlider != null)
         {
             linearSpeedSlider.value = linearSpeed;
+            // 元々の最大値を保存
+            initialMaxLinearSpeed = linearSpeedSlider.maxValue;
+            // スライダーの値変更時にテキストを更新するリスナーを追加
+            linearSpeedSlider.onValueChanged.AddListener(UpdateLinearSpeedText);
         }
         if (angularSpeedSlider != null)
         {
             angularSpeedSlider.value = angularSpeed;
+            // 元々の最大値を保存
+            initialMaxAngularSpeed = angularSpeedSlider.maxValue;
+            // スライダーの値変更時にテキストを更新するリスナーを追加
+            angularSpeedSlider.onValueChanged.AddListener(UpdateAngularSpeedText);
         }
 
-        // ----- 新規追加: トグルボタンのリスナー登録 -----
+        // トグルボタンのリスナー登録
         if (lowSpeedToggle != null)
         {
-            // Update()で状態を確認するため、ここではリスナーは不要
+            lowSpeedToggle.onValueChanged.AddListener(OnLowSpeedToggleChanged);
         }
         if (lowAccelToggle != null)
         {
             lowAccelToggle.onValueChanged.AddListener(OnAccelToggleChanged);
         }
-        // ------------------------------------------------
+
+        // 初期速度テキストの表示
+        UpdateLinearSpeedText(linearSpeed);
+        UpdateAngularSpeedText(angularSpeed);
     }
 
     // フレーム更新時に呼び出される関数
     void Update()
     {
-        // スライダーの値で速度を更新
-        if (linearSpeedSlider != null)
-        {
-            linearSpeed = linearSpeedSlider.value;
-            if (linearSpeedText != null)
-            {
-                linearSpeedText.text = linearSpeed.ToString("F2"); // 小数点以下2桁まで表示
-            }
-        }
-        if (angularSpeedSlider != null)
-        {
-            angularSpeed = angularSpeedSlider.value;
-            if (angularSpeedText != null)
-            {
-                angularSpeedText.text = angularSpeed.ToString("F2"); // 小数点以下2桁まで表示
-            }
-        }
-
         // ROS2が準備できていない、またはノードが作成されていない場合は何もしない
         if (ros2Unity == null || !ros2Unity.Ok() || ros2Node == null)
         {
@@ -123,21 +116,10 @@ public class JoyController : MonoBehaviour
         var rightStickInputX = current.rightStick.x.ReadValue();
         msg.Angular.Z = -rightStickInputX * angularSpeed;
 
-        // ----- 速度調整ロジックの追加 -----
-        // 低速トグルがオンの場合、速度に乗数を掛ける
-        if (lowSpeedToggle != null && lowSpeedToggle.isOn)
-        {
-            msg.Linear.Y *= speedMultiplier;
-            msg.Linear.X *= speedMultiplier;
-            msg.Angular.Z *= speedMultiplier;
-        }
-        // ---------------------------------
-
         // メッセージをパブリッシュ
         twist_pub.Publish(msg);
     }
 
-    // ----- 新規追加メソッド -----
     /// <summary>
     /// 低加速トグルが変更されたときに呼び出されるメソッド
     /// </summary>
@@ -156,5 +138,46 @@ public class JoyController : MonoBehaviour
         accel_pub.Publish(msg);
         Debug.Log($"Published acceleration toggle state: {msg.Data}");
     }
-    // ----------------------------
+
+    /// <summary>
+    /// 低速トグルが変更されたときに呼び出されるメソッド
+    /// </summary>
+    /// <param name="isOn">トグルの新しい状態</param>
+    public void OnLowSpeedToggleChanged(bool isOn)
+    {
+        if (linearSpeedSlider != null)
+        {
+            // トグルがオンの場合、スライダーの最大値を速度乗数で調整
+            linearSpeedSlider.maxValue = isOn ? initialMaxLinearSpeed * speedMultiplier : initialMaxLinearSpeed;
+            // 現在の値を新しい最大値に合わせて調整
+            linearSpeedSlider.value = Mathf.Min(linearSpeed, linearSpeedSlider.maxValue);
+        }
+        if (angularSpeedSlider != null)
+        {
+            // トグルがオンの場合、スライダーの最大値を速度乗数で調整
+            angularSpeedSlider.maxValue = isOn ? initialMaxAngularSpeed * speedMultiplier : initialMaxAngularSpeed;
+            // 現在の値を新しい最大値に合わせて調整
+            angularSpeedSlider.value = Mathf.Min(angularSpeed, angularSpeedSlider.maxValue);
+        }
+    }
+
+    /// <summary>
+    /// 線形速度スライダーの値が変更されたときにテキストを更新する
+    /// </summary>
+    /// <param name="value">スライダーの新しい値</param>
+    private void UpdateLinearSpeedText(float value)
+    {
+        linearSpeed = value;
+        if (linearSpeedText != null) linearSpeedText.text = value.ToString("F2");
+    }
+
+    /// <summary>
+    /// 角速度スライダーの値が変更されたときにテキストを更新する
+    /// </summary>
+    /// <param name="value">スライダーの新しい値</param>
+    private void UpdateAngularSpeedText(float value)
+    {
+        angularSpeed = value;
+        if (angularSpeedText != null) angularSpeedText.text = value.ToString("F2");
+    }
 }

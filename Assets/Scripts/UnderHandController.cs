@@ -42,8 +42,8 @@ public class UnderHandController : MonoBehaviour
             if (ros2Unity.Ok())
             {
                 ros2Node = ros2Unity.CreateNode("UnityUnderHandNode");
-                under_hand_slide_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/under_hand/slide");
-                under_hand_raise_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/under_hand/raise");
+                under_hand_slide_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/phone/under_hand/slide");
+                under_hand_raise_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/phone/under_hand/raise");
             }
         }
         else

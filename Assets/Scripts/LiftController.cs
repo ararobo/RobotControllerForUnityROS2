@@ -36,7 +36,7 @@ public class LiftController : MonoBehaviour
             if (ros2Unity.Ok())
             {
                 ros2Node = ros2Unity.CreateNode("UnityLiftNode");
-                lift_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("lift_vel");
+                lift_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/phone/lift_vel");
             }
         }
 

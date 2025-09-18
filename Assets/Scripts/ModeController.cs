@@ -26,7 +26,7 @@ public class ModeController : MonoBehaviour
             if (ros2Unity.Ok())
             {
                 ros2Node = ros2Unity.CreateNode("UnityModeNode");
-                mode_pub = ros2Node.CreatePublisher<std_msgs.msg.UInt8>("mode_topic");
+                mode_pub = ros2Node.CreatePublisher<std_msgs.msg.UInt8>("/phone/mode");
             }
         }
 

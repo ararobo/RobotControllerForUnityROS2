@@ -27,7 +27,7 @@ public class HoldManager : MonoBehaviour
             {
                 ros2Node = ros2Unity.CreateNode("UnityHoldManagerNode");
                 // /upper_hand/depthトピックにパブリッシュするように修正
-                hold_depth_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/upper_hand/depth");
+                hold_depth_pub = ros2Node.CreatePublisher<std_msgs.msg.Float32>("/phone/upper_hand/depth");
             }
         }
         else

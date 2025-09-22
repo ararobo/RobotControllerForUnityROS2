@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using ROS2;
+using std_msgs.msg;
 
 public class CanvasToggleManager : MonoBehaviour
 {
@@ -15,8 +17,25 @@ public class CanvasToggleManager : MonoBehaviour
     [SerializeField]
     private Toggle canvasToggle;
 
+    // ROS2関連の変数
+    private ROS2UnityComponent ros2Unity;
+    private ROS2Node ros2Node;
+    private IPublisher<std_msgs.msg.Bool> canvas_toggle_pub;
+
     private void Start()
     {
+        // ROS2の初期化
+        ros2Unity = FindAnyObjectByType<ROS2UnityComponent>();
+        if (ros2Unity != null)
+        {
+            ros2Node = ros2Unity.CreateNode("UnityCanvasToggleNode");
+            canvas_toggle_pub = ros2Node.CreatePublisher<std_msgs.msg.Bool>("/phone/auto");
+        }
+        else
+        {
+            Debug.LogError("ROS2UnityComponent not found in the scene.");
+        }
+
         // アプリケーション起動時に、トグルの現在の状態に基づいてキャンバスを初期設定します。
         OnToggleValueChanged(canvasToggle.isOn);
 
@@ -35,5 +54,14 @@ public class CanvasToggleManager : MonoBehaviour
         // isOnがfalseの場合、manualCanvasをアクティブにし、automaticCanvasを非アクティブにします。
         automaticCanvas.SetActive(isOn);
         manualCanvas.SetActive(!isOn);
+
+        // ROS2トピックにbool値をパブリッシュ
+        if (canvas_toggle_pub != null)
+        {
+            std_msgs.msg.Bool msg = new std_msgs.msg.Bool();
+            msg.Data = isOn;
+            canvas_toggle_pub.Publish(msg);
+            Debug.Log($"Published automatic mode state: {isOn}");
+        }
     }
 }

@@ -1,4 +1,5 @@
 # RobotControllerForUnityROS2
+ROS 2とUnityを連携させたロボット制御用コントローラーです。
 
 ## 🚀 使用技術
 

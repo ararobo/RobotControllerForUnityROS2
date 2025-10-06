@@ -11,6 +11,7 @@ public class JoyController : MonoBehaviour
     private ROS2UnityComponent ros2Unity;
     private ROS2Node ros2Node;
     private IPublisher<geometry_msgs.msg.Twist> twist_pub;
+    private IPublisher<std_msgs.msg.Bool> speed_pub;
     private IPublisher<std_msgs.msg.Bool> accel_pub;
 
     // 速度調整用のパブリック変数
@@ -45,6 +46,7 @@ public class JoyController : MonoBehaviour
             {
                 ros2Node = ros2Unity.CreateNode("UnityJoyNode");
                 twist_pub = ros2Node.CreatePublisher<geometry_msgs.msg.Twist>("/phone/cmd_vel");
+                speed_pub = ros2Node.CreatePublisher<std_msgs.msg.Bool>("/phone/low_speed");
                 accel_pub = ros2Node.CreatePublisher<std_msgs.msg.Bool>("/phone/low_accel");
             }
         }
@@ -126,7 +128,7 @@ public class JoyController : MonoBehaviour
     /// <param name="isOn">トグルの新しい状態</param>
     public void OnAccelToggleChanged(bool isOn)
     {
-        if (ros2Unity == null || !ros2Unity.Ok() || ros2Node == null || accel_pub == null)
+        if (ros2Unity == null || !ros2Unity.Ok() || ros2Node == null || accel_pub == null || speed_pub == null)
         {
             Debug.LogWarning("ROS2 is not initialized. Cannot publish acceleration message.");
             return;
@@ -135,6 +137,7 @@ public class JoyController : MonoBehaviour
         std_msgs.msg.Bool msg = new std_msgs.msg.Bool();
         msg.Data = isOn;
 
+        speed_pub.Publish(msg);
         accel_pub.Publish(msg);
         Debug.Log($"Published acceleration toggle state: {msg.Data}");
     }

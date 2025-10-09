@@ -128,7 +128,7 @@ public class JoyController : MonoBehaviour
     /// <param name="isOn">トグルの新しい状態</param>
     public void OnAccelToggleChanged(bool isOn)
     {
-        if (ros2Unity == null || !ros2Unity.Ok() || ros2Node == null || accel_pub == null || speed_pub == null)
+        if (ros2Unity == null || !ros2Unity.Ok() || ros2Node == null || accel_pub == null)
         {
             Debug.LogWarning("ROS2 is not initialized. Cannot publish acceleration message.");
             return;
@@ -137,7 +137,7 @@ public class JoyController : MonoBehaviour
         std_msgs.msg.Bool msg = new std_msgs.msg.Bool();
         msg.Data = isOn;
 
-        speed_pub.Publish(msg);
+        // speed_pub.Publish(msg); // <--- この行を削除/コメントアウト
         accel_pub.Publish(msg);
         Debug.Log($"Published acceleration toggle state: {msg.Data}");
     }
@@ -161,6 +161,15 @@ public class JoyController : MonoBehaviour
             angularSpeedSlider.maxValue = isOn ? initialMaxAngularSpeed * speedMultiplier : initialMaxAngularSpeed;
             // 現在の値を新しい最大値に合わせて調整
             angularSpeedSlider.value = Mathf.Min(angularSpeed, angularSpeedSlider.maxValue);
+        }
+
+        // 低速トグルの状態をROS2にパブリッシュ (速度パブリッシャーを使用)
+        if (ros2Unity != null && ros2Unity.Ok() && ros2Node != null && speed_pub != null)
+        {
+            std_msgs.msg.Bool msg = new std_msgs.msg.Bool();
+            msg.Data = isOn;
+            speed_pub.Publish(msg);
+            Debug.Log($"Published speed toggle state: {msg.Data}");
         }
     }
 

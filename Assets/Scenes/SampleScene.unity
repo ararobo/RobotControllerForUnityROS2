@@ -10096,6 +10096,7 @@ GameObject:
   - component: {fileID: 1508304974}
   - component: {fileID: 1508304973}
   - component: {fileID: 1508304975}
+  - component: {fileID: 1508304976}
   m_Layer: 0
   m_Name: SettingsManager
   m_TagString: Untagged
@@ -10149,6 +10150,27 @@ MonoBehaviour:
   automaticCanvas: {fileID: 60908402}
   manualCanvas: {fileID: 1579471058}
   canvasToggle: {fileID: 1937071501}
+--- !u!114 &1508304976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508304972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a800b71578c72f5418c897974d658aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JoyController
+  linearSpeed: 1
+  angularSpeed: 1
+  speedMultiplier: 0.25
+  linearSpeedText: {fileID: 0}
+  angularSpeedText: {fileID: 0}
+  linearSpeedSlider: {fileID: 0}
+  angularSpeedSlider: {fileID: 0}
+  lowSpeedToggle: {fileID: 2107759304}
+  lowAccelToggle: {fileID: 605922504}
 --- !u!1 &1526460796
 GameObject:
   m_ObjectHideFlags: 0

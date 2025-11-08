@@ -10094,6 +10094,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1508304974}
+  - component: {fileID: 1508304977}
   - component: {fileID: 1508304973}
   - component: {fileID: 1508304975}
   - component: {fileID: 1508304976}
@@ -10171,6 +10172,18 @@ MonoBehaviour:
   angularSpeedSlider: {fileID: 0}
   lowSpeedToggle: {fileID: 2107759304}
   lowAccelToggle: {fileID: 605922504}
+--- !u!114 &1508304977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508304972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feab04ad06492965492b3edc6423aa53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ROS2.ROS2UnityComponent
 --- !u!1 &1526460796
 GameObject:
   m_ObjectHideFlags: 0

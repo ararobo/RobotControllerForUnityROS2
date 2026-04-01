@@ -13,7 +13,11 @@
 // limitations under the License.
 
 #if UNITY_EDITOR
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build;
@@ -30,18 +34,18 @@ internal class PostInstall : IPostprocessBuildWithReport
     public int callbackOrder { get { return 0; } }
     public void OnPostprocessBuild(BuildReport report)
     {
-#if !UNITY_ANDROID
+        if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android) {
+            // For Android, skip the post-install copy as files are embedded in the APK/AAB
+            Debug.Log("Android build detected. Skipping metadata file copy.");
+            return;
+        }
+
         var r2fuMetadataName = "metadata_ros2_for_unity.xml";
         var r2csMetadataName = "metadata_ros2cs.xml";
 
         // FileUtil.CopyFileOrDirectory: All file separators should be forward ones "/".
         var r2fuMeta = ROS2ForUnity.GetRos2ForUnityPath() + "/" + r2fuMetadataName; 
         var r2csMeta = ROS2ForUnity.GetPluginPath() + "/" + r2csMetadataName;
-
-        Debug.Log(r2fuMeta);
-        Debug.Log(r2csMeta);
-        // Debug.Log(report.summary.outputPath);
-        
         var outputDir = Directory.GetParent(report.summary.outputPath);
         var execFilename = Path.GetFileNameWithoutExtension(report.summary.outputPath);
         FileUtil.CopyFileOrDirectory(
@@ -49,11 +53,20 @@ internal class PostInstall : IPostprocessBuildWithReport
         if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneLinux64) {
             FileUtil.CopyFileOrDirectory(
                 r2csMeta, outputDir + "/" + execFilename + "_Data/Plugins/" + r2csMetadataName);
+
+            // Copy versioned libraries (Unity skips them)
+            Regex soWithVersionReg = new Regex(@".*\.so(\.[0-9])+$");
+            var versionedLibs = new List<String>(Directory.GetFiles(ROS2ForUnity.GetPluginPath()))
+                                    .Where(path => soWithVersionReg.IsMatch(path))
+                                    .ToList();
+            foreach (var libPath in versionedLibs) {
+                FileUtil.CopyFileOrDirectory(
+                    libPath, outputDir + "/" + execFilename + "_Data/Plugins/" + Path.GetFileName(libPath));
+            }
         } else {
             FileUtil.CopyFileOrDirectory(
                 r2csMeta, outputDir + "/" + execFilename + "_Data/Plugins/x86_64/" + r2csMetadataName);
         }
-#endif
     }
 
 }

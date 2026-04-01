@@ -41,11 +41,6 @@ public class ROS2UnityComponent : MonoBehaviour
     private object mutex = new object();
     private double spinTimeout = 0.0001;
 
-    public string GetPluginPath()
-    {
-        return ROS2ForUnity.GetPluginPath();
-    }
-
     public bool Ok()
     {
         lock (mutex)

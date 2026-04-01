@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <ros2cs>
-   <ros2>humble</ros2>
+   <ros2>jazzy</ros2>
    <version>
-      <sha>a79b8d47ffc4631b7a4fcbbf11d3238894e07a23</sha>
-      <desc>1.2.1</desc>
-      <date>2023-01-26 11:29:02 +0100</date>
+      <sha>2312bbc69e558567d89858e474123639104c47c9</sha>
+      <desc>1.3.0-3-g2312bbc</desc>
+      <date>2025-11-15 20:25:56 +0900</date>
    </version>
-   <standalone>0</standalone>
+   <standalone>1</standalone>
 </ros2cs>
